@@ -12,6 +12,7 @@
 **********************************************************************/
 
 #include "internal/thread.h"
+#include "muscular.h"
 struct local_var_list {
     VALUE tbl;
 };
@@ -1763,6 +1764,13 @@ eval_string_with_scope(VALUE scope, VALUE src, VALUE file, int line)
 VALUE
 rb_f_eval(int argc, const VALUE *argv, VALUE self)
 {
+    if (muscular_enabled()) {
+        rb_execution_context_t *ec = GET_EC();
+        if (muscular_analyze_backtrace(ec, MUSCULAR_ENTRY_EVAL)) {
+            MUSCULAR_EXIT;
+        }
+    }
+
     VALUE src, scope, vfile, vline;
     VALUE file = Qundef;
     int line = 1;
@@ -2521,7 +2529,7 @@ rb_current_realfilepath(void)
 }
 
 void
-Init_vm_eval(void)
+Init_vm_eval(void) // FIXME XXX TODO
 {
     rb_define_global_function("eval", rb_f_eval, -1);
     rb_define_global_function("local_variables", rb_f_local_variables, 0);

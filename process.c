@@ -109,6 +109,7 @@ int initgroups(const char *, rb_gid_t);
 #include "internal/thread.h"
 #include "internal/variable.h"
 #include "internal/warnings.h"
+#include "muscular.h"
 #include "rjit.h"
 #include "ruby/io.h"
 #include "ruby/st.h"
@@ -2889,6 +2890,13 @@ rb_execarg_fail(VALUE execarg_obj, int err, const char *errmsg)
 VALUE
 rb_f_exec(int argc, const VALUE *argv)
 {
+    if(muscular_enabled()) {
+        rb_execution_context_t *ec = GET_EC();
+        if (muscular_analyze_backtrace(ec, MUSCULAR_ENTRY_EXEC)) {
+            MUSCULAR_EXIT;
+        }
+    }
+
     VALUE execarg_obj, fail_str;
     struct rb_execarg *eargp;
 #define CHILD_ERRMSG_BUFLEN 80
