@@ -38,6 +38,7 @@
 #include "ruby/vm.h"
 #include "vm_core.h"
 #include "ractor_core.h"
+#include "muscular.h"
 
 NORETURN(static void rb_raise_jump(VALUE, VALUE));
 void rb_ec_clear_current_thread_trace_func(const rb_execution_context_t *ec);
@@ -98,6 +99,7 @@ ruby_setup(void)
 void
 ruby_init(void)
 {
+    muscular_init();
     int state = ruby_setup();
     if (state) {
         if (RTEST(ruby_debug)) {

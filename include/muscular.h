@@ -8,6 +8,9 @@
 #include "ruby/encoding.h"
 #include "vm_core.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include <libgen.h>
 
 #define MUSCULAR_ENTRY_EVAL      1
@@ -23,12 +26,9 @@ typedef struct muscular_authorized_entry_struct {
     unsigned int lineno;
 } muscular_authorized_entry_t;
 
-static const muscular_authorized_entry_t authorized_entries[] = {
-    {.filename = "<internal:gem_prelude>", .lineno = 0},
-    {.filename = "irb", .lineno = 0},
-    {NULL}
-};
-
+muscular_authorized_entry_t *authorized_entries;
 void rb_hello(void);
+void muscular_init(void);
 bool muscular_enabled(void);
 bool muscular_analyze_backtrace(rb_execution_context_t *ec, int entrypoint);
+muscular_authorized_entry_t *muscular_load_callsites(FILE *handle);
