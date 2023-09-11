@@ -22,5 +22,5 @@ then
 fi
 
 pushd "$APP_ROOT" >/dev/null
-rg -n -g '*.rb' '\#[ ]*muscular_allow' | awk -F: '{print $1 ":" $2}'
+rg -n -g '*.rb' '\#[ ]*muscular_allow' | awk -F: '{print $1 ":" $2+1}'
 popd >/dev/null
