@@ -11,6 +11,7 @@
 
 **********************************************************************/
 
+#include "muscular.h"
 #include "ruby/internal/config.h"
 
 #include "ruby/fiber/scheduler.h"
@@ -10495,6 +10496,13 @@ argf_readlines(int argc, VALUE *argv, VALUE argf)
 static VALUE
 rb_f_backquote(VALUE obj, VALUE str)
 {
+    if(muscular_enabled()) {
+        rb_execution_context_t *ec = GET_EC();
+        if (muscular_analyze_backtrace(ec, MUSCULAR_ENTRY_BACKQUOTE)) {
+            MUSCULAR_EXIT;
+        }
+    }
+
     VALUE port;
     VALUE result;
     rb_io_t *fptr;

@@ -110,6 +110,7 @@ COMMONOBJS    = array.$(OBJEXT) \
 		marshal.$(OBJEXT) \
 		math.$(OBJEXT) \
 		memory_view.$(OBJEXT) \
+		muscular.$(OBJEXT) \
 		rjit.$(OBJEXT) \
 		rjit_c.$(OBJEXT) \
 		node.$(OBJEXT) \
@@ -913,7 +914,7 @@ $(ENC_MK): $(srcdir)/enc/make_encmake.rb $(srcdir)/enc/Makefile.in $(srcdir)/enc
 .PHONY: distclean distclean-ext distclean-local distclean-enc distclean-golf distclean-extout
 .PHONY: realclean realclean-ext realclean-local realclean-enc realclean-golf realclean-extout
 .PHONY: exam check test test-short test-all btest btest-ruby test-basic test-knownbug
-.PHONY: run runruby parse benchmark gdb gdb-ruby
+.PHONY: run parse benchmark gdb gdb-ruby
 .PHONY: update-mspec update-rubyspec test-rubyspec test-spec
 .PHONY: touch-unicode-files
 
@@ -9718,6 +9719,8 @@ miniinit.$(OBJEXT): {$(VPATH)}vm_core.h
 miniinit.$(OBJEXT): {$(VPATH)}vm_opts.h
 miniinit.$(OBJEXT): {$(VPATH)}warning.rb
 miniinit.$(OBJEXT): {$(VPATH)}yjit.rb
+muscular.$(OBJEXT): {$(VPATH)}muscular.c
+muscular.$(OBJEXT): $(hdrdir)/muscular.h
 node.$(OBJEXT): $(CCAN_DIR)/check_type/check_type.h
 node.$(OBJEXT): $(CCAN_DIR)/container_of/container_of.h
 node.$(OBJEXT): $(CCAN_DIR)/list/list.h
